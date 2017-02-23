@@ -21,7 +21,7 @@
 
  	<context:annotation-config/>
  	<mvc:annotation-driven/>
-	<context:component-scan base-package="com.bitguiders.imtehan" />
+	<context:component-scan base-package="com.bitguiders.imtehan.*" />
 
 	<mvc:resources location="/resources/" mapping="/resources/**"/>
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
