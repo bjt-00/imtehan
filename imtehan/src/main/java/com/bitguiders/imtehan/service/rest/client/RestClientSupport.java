@@ -1,13 +1,9 @@
 package com.bitguiders.imtehan.service.rest.client;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 class RestClientSupport<E> {
 	
@@ -43,7 +39,6 @@ class RestClientSupport<E> {
 		}
 		public String getUpdateURL(int id,String data){
 			return host+service+"&a=update&id="+id+"&data="+data;
-			//return host+service;
 		}
 	}
 	
