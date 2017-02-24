@@ -22,7 +22,6 @@ import com.bitguiders.imtehan.service.rest.client.QuestionRestClient;
 @SessionScope
 @SessionAttributes({"examModel","qorm"})
 @RequestMapping(value="exam")
-
 public class ExamController  extends GenericController {
 
 	@Autowired
@@ -37,63 +36,51 @@ public class ExamController  extends GenericController {
 		ExamModel examModel = new ExamModel();
 		examModel.setExam(qbClient.getById(id));
 	
-		//request.getSession().setAttribute("", examModel);
 		model.addAttribute("examModel",examModel);
 		examModel.setQuestions(client.getListByQuestionBundleId(examModel.getExam().getQuestionBundleId()));
 		return getView("exam/startExam",model);
 
 	}
 
-	int index = 0;
+//	int index = 0;
 
-	@RequestMapping(value = "/start", method = RequestMethod.GET)
+	@RequestMapping(value = "/start", method = RequestMethod.POST)
 	public String examForm(HttpServletRequest request, HttpSession session,
-			ModelMap model,@ModelAttribute ExamModel examModel) {
+			ModelMap model,@ModelAttribute ExamModel examModel,@RequestParam(value="questionsLimit", required=false, defaultValue="0")int questionsLimit) {
 
+		
 		examModel.setQuestions(client.getListByQuestionBundleId(examModel.getExam().getQuestionBundleId()));
+		if(questionsLimit>0){
+			examModel.setQuestionsLimit(questionsLimit);
+		}
+		examModel.getNext();
 		model.addAttribute("examModel",examModel);
-		model.addAttribute("qorm",examModel.getNext());
 		return getView("exam/examForm",model,"Best of luck :) ");
 	}
 	@RequestMapping(value = "/next", method = RequestMethod.POST)
 	public String next(HttpServletRequest request, HttpSession session,
-			ModelMap model,@ModelAttribute ExamModel examModel,@ModelAttribute("qorm") QuestionORM qorm) {
-		//examModel.setAnswer(qorm);
+			ModelMap model,@ModelAttribute ExamModel examModel) {
 		model.addAttribute("examModel",examModel);
+		if(examModel.isFinished()){
+			return resultList(request,model,examModel);
+		}
 		examModel.getNext();
-		//model.addAttribute("qorm",examModel.getNext());
 		return getView("exam/examForm",model);
 	}
 	@RequestMapping(value = "/back", method = RequestMethod.POST)
 	public String back(HttpServletRequest request, HttpSession session,
-			ModelMap model,@ModelAttribute ExamModel examModel,@ModelAttribute("qorm") QuestionORM qorm) {
-		//examModel.setAnswer(qorm);
+			ModelMap model,@ModelAttribute ExamModel examModel) {
 		model.addAttribute("examModel",examModel);
 		examModel.getBack();
-		//model.addAttribute("qorm",examModel.getNext());
 		return getView("exam/examForm",model);
 	}
 
 	@RequestMapping(value = "/result", method = RequestMethod.POST)
-	public String resultList(HttpServletRequest request, HttpSession session,
-			ModelMap model,@ModelAttribute ExamModel examModel,@ModelAttribute("qorm") QuestionORM qorm) {
-		//examModel.setAnswer(qorm);
+	public String resultList(HttpServletRequest request, 
+			ModelMap model,@ModelAttribute ExamModel examModel) {
 		model.addAttribute("examModel",examModel);
-
 		return getView("exam/resultList",model,"Exam is over now");
 	}
 
-	//
-	// @RequestMapping(value="/question/quetionBundleList",
-	// method=RequestMethod.GET )
-	// public String questionBundle(HttpServletRequest request, Model model ){
-	// return "question/quetionBundleList";
-	// }
-	//
 
-	/*
-	 * @RequestMapping(value="/question/quetionBundleList",
-	 * method=RequestMethod.GET ) public String examForm(HttpServletRequest
-	 * request, Model model ){ return "question/quetionBundleList"; }
-	 */
 }

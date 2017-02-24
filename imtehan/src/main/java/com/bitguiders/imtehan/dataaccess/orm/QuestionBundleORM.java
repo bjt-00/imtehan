@@ -9,6 +9,8 @@ public class QuestionBundleORM  implements Serializable{
 	private String type;
 	private String technology;
 	private String date;
+	private String testingId;
+	private String registrationId;
 	private int totalQuestions;
 
 	public int getQuestionBundleId() {
@@ -40,6 +42,18 @@ public class QuestionBundleORM  implements Serializable{
 	}
 	public void setDate(String date) {
 		this.date = date;
+	}
+	public String getTestingId() {
+		return testingId;
+	}
+	public void setTestingId(String testingId) {
+		this.testingId = testingId;
+	}
+	public String getRegistrationId() {
+		return registrationId;
+	}
+	public void setRegistrationId(String registrationId) {
+		this.registrationId = registrationId;
 	}
 	public int getTotalQuestions() {
 		return totalQuestions;

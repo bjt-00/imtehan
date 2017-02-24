@@ -2,25 +2,31 @@ package com.bitguiders.imtehan.model;
 
 import java.util.List;
 
-import com.bitguiders.imtehan.dataaccess.orm.OptionORM;
 import com.bitguiders.imtehan.dataaccess.orm.QuestionBundleORM;
 import com.bitguiders.imtehan.dataaccess.orm.QuestionORM;
 
 public class ExamModel  {
 	int currentIndex=0;
-	int totalQuestions;
 	List<QuestionORM> questionsList;
 	QuestionBundleORM exam;
 	QuestionORM orm;
+	double yourScore;
+	double passingScore;
+	boolean isFinished;
+	int questionsLimit;
 	
 	public void setQuestions(List<QuestionORM> questionsList){
 		this.questionsList = questionsList;
-		totalQuestions=questionsList.size();
+		questionsLimit = exam.getTotalQuestions();
+		passingScore=0;
+		yourScore=0;
 	}
 	public QuestionORM getNext(){
 		orm = questionsList.get(currentIndex);
-		if(currentIndex<totalQuestions-1){
+		if(currentIndex<questionsLimit-1){
 			currentIndex++;
+		}else{
+			isFinished = true;
 		}
 		return orm;
 	}
@@ -33,7 +39,7 @@ public class ExamModel  {
 	public QuestionORM getBack(){
 
 		orm = questionsList.get(currentIndex);
-		if(currentIndex>0){
+		if(!isFinished && currentIndex>0){
 			currentIndex--;
 		}
 		return orm;
@@ -47,23 +53,45 @@ public class ExamModel  {
 		return exam;
 	}
 	
-	public int getTotalQuestions(){
-		return totalQuestions;
-	}
 	public int getcurrentIndex(){
 		return currentIndex;
 	}
 	public List<QuestionORM> getQuestionsList(){
 		return questionsList;
 	}
-	public String getScore(){
-		int totalQuestions = questionsList.size();
+	public double getPassingScore(){
+		calculateScore();
+		return passingScore;
+	}
+	public double getYourScore(){
+		calculateScore();
+		return yourScore;
+	}
+	public String getResult(){
+		return (yourScore>=passingScore?"Pass":"Fail");
+	}
+	private void calculateScore(){
+		if(passingScore==0){
 		int correctQuestions=0;
 		for(QuestionORM question:questionsList){
 			if(question.getUserAnswer()==true){
 				correctQuestions++;
 			}
 		}
-		return  correctQuestions*10+ " / "+totalQuestions*10;
+		yourScore = correctQuestions*10;
+		passingScore = questionsList.size()*10;
+		}
+	}
+	public boolean isFinished(){
+		return isFinished;
+	}
+	public int getQuestionsLimit() {
+		return questionsLimit;
+	}
+	public void setQuestionsLimit(int questionsLimit) {
+		for(int i=0;i<exam.getTotalQuestions()-questionsLimit;i++){
+			questionsList.remove(i);
+		}
+		this.questionsLimit = questionsLimit;
 	}
 }
