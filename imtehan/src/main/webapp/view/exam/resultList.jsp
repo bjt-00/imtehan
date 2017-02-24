@@ -12,18 +12,26 @@
 </head>
 <body>
 	<div class="row" style="text-align:center">
-		<span class="PageTitle">&nbsp;Quiz Score for  "${examModel.exam.title}"</span>
-	</div>
-	<br>
-	<div class="row" style="text-align:center">
-		Attend Question ${examModel.totalQuestions} / ${examModel.totalQuestions}
-	</div>
-	<br>
-	<br>
-	<div class="row" style="text-align:center;color:green;font-size:25px;font-weight:bold">
-		Your Score  ${examModel.score}
+		<span class="PageTitle">Examination Score Report</span>
+		<p>Name</p>
+		<p><label>Testing ID : </label>${examModel.exam.testingId}</p>
 	</div>
 
+	<div class="row" style="text-align:center">
+		<span>${examModel.exam.title}</span>
+	</div>
+	<br>
+	<div class="row">
+		<div class="col-lg-4"><label>Exam Date : </label>${examModel.exam.date}</div>
+		<div class="col-lg-4"><label>Registration ID : </label>${examModel.exam.registrationId}</div>
+		<div class="col-lg-4"><label>Center ID : </label>Online</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-4"><label>Your Score : </label>${examModel.yourScore}</div>
+		<div class="col-lg-4"><label>Passing Score : </label>${examModel.passingScore}</div>
+		<div class="col-lg-4"><label>Result : </label>${examModel.result}</div>
+	</div>
+	<br>
 	<div class="row">
 <table id="questionList" class="table">
 	<thead>

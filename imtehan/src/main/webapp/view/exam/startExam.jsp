@@ -1,6 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+ <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
+ <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
 <html>
@@ -10,38 +12,33 @@
 <jsp:include page="../structure/imports.jsp" />
 </head>
 <body>
+<form:form commandName="examModel.exam" method="post" action="start.do" class="form-group">
+
 	<div class="row" style="text-align:center">
 		<span class="PageTitle">&nbsp; ${examModel.exam.title}</span>
 	</div>
 	<br>
 	<div class="row" style="text-align:center">
-		Attend Question <input type="text" placeholder="${examModel.totalQuestions}" size="4" /> / ${examModel.totalQuestions}
+		<label>Attend Question : 
+		<span id="questionLimit">${examModel.exam.totalQuestions} </span> / ${examModel.exam.totalQuestions}
+		<input type="range" name="questionsLimit" min="1" max="${examModel.exam.totalQuestions}" step="1" onchange="$('#questionLimit').html(this.value)" />
+		</label>
 	</div>
 	<br>
-	<br>
-
-	<div class="row" style="text-align:center">
-		<label><input type="checkbox" name="timer"> Use Timer</label><span>
-		</span>
-		<!--  5 mints<input type="range" name="points" min="0" max="10" size="20" />120 mints-->
-     <label><input type="checkbox" name="shuffle" > Shuffle Question Order</label><span> </span>
- 
-	</div>
 	<div>
-		<input type="text" class="form-control" placeholder="exam ID" />
+		<form:input type="text" class="form-control" path="testingId" placeholder="Testing ID" />
 	</div>
 	<br><br>
 	<div>
-		<input type="text" class="form-control" placeholder="User ID" />
+		<form:input type="text" class="form-control" path="registrationId"  placeholder="Registration ID" />
 	</div>
 	<div class="row">&nbsp;</div>
 	<div class="row" style="float:right">
 		<a href=" <spring:url value="/qb/list.do"/>" class="btn btn-danger">
 		 Cancel
 		</a>
-		 <a class="btn btn-success" href="<spring:url value="/exam/start.do"/>" > start </a>
+		 <button type="submit" class="btn btn-success pull-right" >Start Exam</button>
 	</div>
-
-
+</form:form>
 </body>
 </html>
