@@ -45,10 +45,10 @@
 			<td>${b.totalQuestions}</td>
 			<td>${b.date}</td>
 			<td> &nbsp;
-				<a href="${pageContext.request.contextPath}/qb/edit.do?id=${b.questionBundleId}"><span class="glyphicon glyphicon-pencil"></span></a>
-				<a href="${pageContext.request.contextPath}/qb/delete.do?id=${b.questionBundleId}"><span class="glyphicon glyphicon-trash"></span></a>
-				<a href="${pageContext.request.contextPath}/q/list.do?qbid=${b.questionBundleId}"><span class="glyphicon glyphicon-plus-sign"></span></a>
-				<a href="${pageContext.request.contextPath}/exam/welcome.do?id=${b.questionBundleId}"><span class="glyphicon glyphicon-play-circle"></span></a>
+				<a href="${pageContext.request.contextPath}/qb/edit.do?id=${b.questionBundleId}"   title="Edit Bundle"><span class="glyphicon glyphicon-pencil"></span></a>
+				<a href="${pageContext.request.contextPath}/qb/delete.do?id=${b.questionBundleId}" title="Delete Bundle" ><span class="glyphicon glyphicon-trash"></span></a>
+				<a href="${pageContext.request.contextPath}/q/list.do?qbid=${b.questionBundleId}"  title="Questions List"><span class="glyphicon glyphicon-plus-sign"></span></a>
+				<a href="${pageContext.request.contextPath}/exam/welcome.do?id=${b.questionBundleId}" title="Begin Test" ><span class="glyphicon glyphicon-play-circle"></span></a>
 			</td>
 		</tr>
 	</c:forEach>	
@@ -59,6 +59,7 @@ $(document).ready(function() {
     $('#questionBundleList').DataTable();
 } );
 </script>
+
 
 </body>
 </html>

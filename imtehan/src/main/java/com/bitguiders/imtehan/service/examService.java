@@ -1,5 +1,6 @@
-package com.bitguiders.imtehan.service;
+/*package com.bitguiders.imtehan.service;
 
 public interface examService {
 
 }
+*/

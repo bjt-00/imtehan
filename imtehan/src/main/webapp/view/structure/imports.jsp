@@ -14,5 +14,9 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/scripts/dataTable/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/scripts/dataTable/dataTables.bootstrap.min.js"></script>
 
+<!-- angular js -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
     <!-- Custom JS -->
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/scripts/ttts.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/scripts/imtehan.js"></script>
+

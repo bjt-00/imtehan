@@ -20,7 +20,7 @@ import com.bitguiders.imtehan.dataaccess.orm.QuestionBundleORM;
 import com.bitguiders.imtehan.service.rest.client.QuestionBundleRestClient;
 
 /**
- * @author yared
+ * @author Abdul Kareem
  *
  */
 

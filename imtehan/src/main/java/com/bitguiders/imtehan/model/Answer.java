@@ -1,4 +1,4 @@
-package com.bitguiders.imtehan.model;
+/*package com.bitguiders.imtehan.model;
 
 public class Answer {
 
@@ -40,3 +40,4 @@ public class Answer {
 
 	
 }
+*/

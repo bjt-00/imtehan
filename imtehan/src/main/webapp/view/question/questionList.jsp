@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="f" uri="http://java.sun.com/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -62,14 +63,17 @@
 <div class="row">&nbsp;</div>
 
 <div class="row">
-		<a href=" <spring:url value="/q/add.do?qbid=${qbid}"/>" class="btn btn-primary pull-right">Add Question</a>&nbsp;
-		<a href=" <spring:url value="/qb/list.do"/>" class="btn btn-danger pull-right">Back</a>  
+		<a href="<spring:url value="/qb/list.do"/>" class="btn btn-danger pull-right">Back</a>&nbsp;
+		<a href="<spring:url value="/q/add.do?qbid=${qbid}"/>" class="btn btn-primary pull-right">Add Question</a>&nbsp;
+		<a href="<spring:url value="/exam/welcome.do?id=${qbid}"/>" class="btn btn-success pull-right" >Begin Test</a>&nbsp;
+
  </div>
 <div class="row">&nbsp;</div>
 
 <fieldset>
 <legend>Questions in the Bundle</legend>
 
+<!-- 
 <table id="questionList" class="table">
 	<thead>
 		<tr>
@@ -94,7 +98,6 @@
 		</c:forEach>	    
 	 </tbody>
  </table>
-</fieldset>
 
 <section>
 <div>
@@ -108,5 +111,48 @@ $(document).ready(function() {
     $('#questionList').DataTable();
 } );
 </script>
+-->
+<div class="row" ng-app="myApp" ng-controller="myCtrl">
+
+ <div class="panel-group" id="accordion">
+	<c:forEach var="question" items="${questionList}" varStatus="i">
+	    <div class="panel panel-default">
+	      <div class="panel-heading">
+	        <h4 class="panel-title">
+	        ${i.index+1} : 
+		          <a data-toggle="collapse" data-parent="#accordion" href="#question-${question.questionId}">${question.question}</a>
+		          
+		          
+		         <span class="pull-right">
+					<a href="<spring:url value="/q/edit.do?id=${question.questionId}"/>"><span class="glyphicon glyphicon-pencil"></span></a>
+					<a href="${pageContext.request.contextPath}/q/delete.do?id=${question.questionId}"><span class="glyphicon glyphicon-trash"></span></a>
+				</span>
+	        </h4>
+	      </div>
+	      <div id="question-${question.questionId}" class="panel-collapse collapse ${i.index+1 eq 1 ?'in':''}">
+	        <div class="panel-body">
+	        <c:set var="orm" value="${question}" scope="request" />
+	       		<jsp:include page="questionView.jsp">
+	       			<jsp:param value="${question.question}" name="question"/>
+	       		</jsp:include>
+	        </div>
+	      </div>
+	    </div>
+	</c:forEach>
+  </div> 
+</div>
+<script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope, $http) {
+	/*
+	$scope.myPage = "Test--";
+    $http.get("questionForm.jsp")
+    .then(function(response) {
+        $scope.myPage = response.data;
+    });*/
+});
+</script> 
+</fieldset>
+
 </body>
 </html>

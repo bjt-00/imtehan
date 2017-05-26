@@ -1,14 +1,14 @@
 /**
  * 
- */
+ *//*
 package com.bitguiders.imtehan.model;
 
 import java.util.List;
 
-/**
+*//**
  * @author yared
  *
- */
+ *//*
 public class Question {
 
 	
@@ -58,3 +58,4 @@ public class Question {
 		this.type = type;
 	}
 }
+*/
