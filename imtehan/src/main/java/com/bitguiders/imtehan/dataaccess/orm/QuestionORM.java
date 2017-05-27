@@ -3,6 +3,7 @@ package com.bitguiders.imtehan.dataaccess.orm;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import static com.bitguiders.imtehan.util.QuestionParser.*;
 
 public class QuestionORM implements Serializable{
 
@@ -55,7 +56,7 @@ public class QuestionORM implements Serializable{
 		int total = optionsList.size();
 		for(OptionORM o:optionsList){
 			if(o.getOptionLabel().trim().length()>0){
-			options += o.getOptionLabel()+"op~"+o.isCorrect()+(--total!=0?",":"");
+			options += parse(o.getOptionLabel()+OPTION_ANSWER_SEPARATOR+o.isCorrect()+(--total!=0?OPTION_SEPARATOR:""));
 			}
 		}
 		return options;
@@ -74,7 +75,7 @@ public class QuestionORM implements Serializable{
 		int total = optionsList.size();
 		for(OptionORM o:optionsList){
 			if(o.getOptionLabel().trim().length()>0){
-			answers += o.isUserAnswer()+(--total!=0?",":"");
+			answers += o.isUserAnswer()+(--total!=0?OPTION_ANSWER_SEPARATOR:"");
 			}
 		}
 		return answers;
@@ -84,19 +85,21 @@ public class QuestionORM implements Serializable{
 		int total = optionsList.size();
 		for(OptionORM o:optionsList){
 			if(o.getOptionLabel().trim().length()>0){
-			answers += o.isCorrect()+(--total!=0?",":"");
+			answers += o.isCorrect()+(--total!=0?OPTION_ANSWER_SEPARATOR:"");
 			}
 		}
 		return answers;
 	}
 	public void setOptions(String options) {
+		System.out.println(options);
 		this.options = options;
-		if(null!=options && options.contains(",")){
-			String[] option = options.split(",");
+		if(null!=options && options.contains(OPTION_SEPARATOR)){
+			String[] option = options.split(OPTION_SEPARATOR);
 			optionsList = new ArrayList<OptionORM>();
 			for(String o:option){
-				if(o.contains("op~")){
-				String choices[] = o.split("op~");
+				o = format(o);
+				if(o.contains(OPTION_ANSWER_SEPARATOR)){
+				String choices[] = o.split(OPTION_ANSWER_SEPARATOR);
 				optionsList.add(new OptionORM(choices[0], Boolean.parseBoolean(choices[1])));
 				}else{
 					optionsList.add(new OptionORM(o, false));
@@ -104,9 +107,8 @@ public class QuestionORM implements Serializable{
 			}
 		}
 	}
-
 	public List<OptionORM> getOptionsList() {
-		if(optionsList.size()==0 && null!=options && options.contains(",")){
+		if(optionsList.size()==0 && null!=options && options.contains(OPTION_SEPARATOR)){
 			setOptions(options);
 		}
 		return optionsList;
@@ -114,5 +116,5 @@ public class QuestionORM implements Serializable{
 	public void setOptionsList(List<OptionORM> optionsList) {
 		this.optionsList = optionsList;
 	}
-
+	
 }

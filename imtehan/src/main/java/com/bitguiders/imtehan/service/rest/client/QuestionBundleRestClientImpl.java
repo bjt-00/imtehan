@@ -29,9 +29,10 @@ public class QuestionBundleRestClientImpl extends RestClientSupport<QuestionBund
 	}
 	@Override
 	public String update(QuestionBundleORM qb,HttpServletRequest request) {
-		return restTemplate.getForObject(service.getUpdateURL(qb.getQuestionBundleId(),toUpdate(qb)), String.class);
+		//QuestionBundleORM qb = restTemplate.postForObject(service.getUpdateURL(qb.getQuestionBundleId(),toUpdate(qb)), qb, String.class);
+		return qb.getTitle()+ restTemplate.postForObject(service.getUpdateURL(qb.getQuestionBundleId(),toUpdate(qb)), qb, String.class);
+//		return restTemplate.getForObject(service.getUpdateURL(qb.getQuestionBundleId(),toUpdate(qb)), String.class);
 	}
-
 	@Override
 	public String toUpdate(QuestionBundleORM qb) {
 		return "title='" + qb.getTitle() + "', type='" + qb.getType() + "', technology='" + qb.getTechnology()+"', date='" + qb.getDate()+"', totalQuestions= (SELECT count(*) FROM question WHERE questionBundleId ="+qb.getQuestionBundleId()+")";

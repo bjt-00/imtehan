@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.google.gson.reflect.TypeToken;
 
 import com.bitguiders.imtehan.dataaccess.orm.QuestionORM;
+import com.bitguiders.imtehan.util.QuestionParser;
 
 @Service
 public class QuestionRestClientImpl extends RestClientSupport<QuestionORM> implements QuestionRestClient {
@@ -47,31 +48,14 @@ public class QuestionRestClientImpl extends RestClientSupport<QuestionORM> imple
 
 	@Override
 	public String toUpdate(QuestionORM qb) {
-		return "question='" + parse(qb.getQuestion()) + "', type='" + qb.getType() + "',options = '"+parse(qb.getOptions())+"'";
+		return "question='" + QuestionParser.parse(qb.getQuestion()) + "', type='" + qb.getType() + "',options = '"+QuestionParser.parse(qb.getOptions())+"'";
 	}
-	private static String parse(String question){
-		question = question.replace("{", "cbs~");
-		question = question.replace("}", "cbe~");
-		question = question.replace("(", "ibs~");
-		question = question.replace(")", "ibe~");
-		question = question.replace("'", "sp~");
-		question = question.replace("\"", "dp~");
-		return question;
-	}
-	private String format(String question){
-		question = question.replace("cbs~","{");
-		question = question.replace("cbe~","}");
-		question = question.replace("ibs~","(");
-		question = question.replace("ibe~",")");
-		question = question.replace("sp~","'");
-		question = question.replace("dp~","\"");
-		return question;
-	}
+	
 	private QuestionORM format(QuestionORM question){
-		question.setQuestion(format(question.getQuestion()));
+		question.setQuestion(QuestionParser.format(question.getQuestion()));
 		
 		question.getOptionsList();
-		question.setOptions(format(question.getOptions()));
+		question.setOptions(QuestionParser.format(question.getOptions()));
 		
 		return question;
 	}
@@ -85,7 +69,7 @@ public class QuestionRestClientImpl extends RestClientSupport<QuestionORM> imple
 	@Override
 	public String toSQL(QuestionORM qb) {
 		return "(questionId,questionBundleId,question,type,options)"
-	+" VALUES(0,"+qb.getQuestionBundleId()+",'" +parse(qb.getQuestion()) + "','" + qb.getType()+ "','"+parse(qb.getOptions())+ "')";
+	+" VALUES(0,"+qb.getQuestionBundleId()+",'" +QuestionParser.parse(qb.getQuestion()) + "','" + qb.getType()+ "','"+QuestionParser.parse(qb.getOptions())+ "')";
 	}
 
 	public List<QuestionORM> getList() {
@@ -112,7 +96,7 @@ public class QuestionRestClientImpl extends RestClientSupport<QuestionORM> imple
 	}
 
 public static void main(String[] arg){
-	System.out.println(parse("{}}"));
+	System.out.println(QuestionParser.parse("{}}"));
 }
 
 }

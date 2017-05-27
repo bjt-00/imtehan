@@ -70,9 +70,9 @@ public class QuestionBundleController extends GenericController {
 	   }
 	 @RequestMapping(value = "/update", method = RequestMethod.POST)
 	   public String update(@Valid @ModelAttribute("qborm")QuestionBundleORM orm,ModelMap model,HttpServletRequest request) {
-	       client.update(orm,request);
+	       setMessage(client.update(orm,request),model);
 			model.addAttribute("bundleList",client.getList());
-	       return getView("question/quetionBundleList",model,"Question Bundle updated successfully");
+	       return getView("question/quetionBundleList",model);
 	   }
 
 	 @RequestMapping(value = "/delete", method = RequestMethod.GET)
