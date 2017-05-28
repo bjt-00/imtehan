@@ -78,7 +78,7 @@ public class QuestionORM implements Serializable{
 			answers += o.isUserAnswer()+(--total!=0?OPTION_ANSWER_SEPARATOR:"");
 			}
 		}
-		return answers;
+		return format(answers);
 	}
 	public String getCorrectAnswers(){
 		String answers="";
@@ -88,7 +88,7 @@ public class QuestionORM implements Serializable{
 			answers += o.isCorrect()+(--total!=0?OPTION_ANSWER_SEPARATOR:"");
 			}
 		}
-		return answers;
+		return format(answers);
 	}
 	public void setOptions(String options) {
 		System.out.println(options);
