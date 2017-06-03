@@ -52,6 +52,10 @@ public class QuestionBundleRestClientTest {
 		when(client.getById(1)).thenReturn(orm);
 		QuestionBundleORM found = client.getById(1);
 
+		//add the behavior to throw exception
+	      doThrow(new RuntimeException("Add operation not implemented"))
+	         .when(client).add(expected);
+
 		assertTrue("Oops add operation failed :"+message,found != null 
 				&& found.getTitle().equals(expected.getTitle()) 
 				&& found.getType().equals(expected.getType()));
@@ -61,7 +65,7 @@ public class QuestionBundleRestClientTest {
 		//verify(client,times(2)).add(expected);
 		//verify(client,never()).add(expected);
 		//verify(client,atLeastOne..atMost(2) etc).add(expected);
-		//
+		
 	}
 	@Test
 	public void updateTest() {
