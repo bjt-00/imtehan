@@ -66,6 +66,10 @@ public class QuestionBundleRestClientTest {
 		//verify(client,never()).add(expected);
 		//verify(client,atLeastOne..atMost(2) etc).add(expected);
 		
+		//following will make sure that getById is first called then add is called.
+		inOrder(client).verify(client).getById(1);
+	    inOrder(client).verify(client).add(expected);
+
 	}
 	@Test
 	public void updateTest() {
