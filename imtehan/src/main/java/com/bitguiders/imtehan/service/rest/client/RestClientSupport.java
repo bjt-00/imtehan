@@ -5,7 +5,7 @@ import org.springframework.web.client.RestTemplate;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-class RestClientSupport<E> {
+abstract class RestClientSupport<E> {
 	
 	public RestTemplate restTemplate = new RestTemplate();
 	public Gson gson = new GsonBuilder().create();
@@ -34,14 +34,29 @@ class RestClientSupport<E> {
 		public String getDeleteURL(int id){
 			return host+service+"&a=delete&id="+id;
 		}
+		@Deprecated
 		public String getAddURL(String data){
 			return host+service+"&a=add&data="+data;
 		}
+		public String getAddURL(){
+			return host+service+"&a=add";
+		}
+		@Deprecated
 		public String getUpdateURL(int id,String data){
 			return host+service+"&a=update&id="+id+"&data="+data;
 		}
+		@Deprecated
+		public String getUpdateURL(int id){
+			return host+service+"&id="+id;
+		}
+		public String getUpdateURL(){
+			return host+service;
+		}
+		public String getURL(){
+			return host+service;
+		}
+
 	}
-	
 	RestClientSupport(REST service){
 		this.service = service;
 	}

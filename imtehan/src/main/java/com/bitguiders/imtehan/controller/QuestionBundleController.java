@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.context.annotation.SessionScope;
 
 import com.bitguiders.imtehan.dataaccess.orm.QuestionBundleORM;
+import com.bitguiders.imtehan.dataaccess.orm.QuestionORM;
 import com.bitguiders.imtehan.service.rest.client.QuestionBundleRestClient;
 
 /**
@@ -54,11 +56,11 @@ public class QuestionBundleController extends GenericController {
 		return getView("question/questionBundleForm",model);
 	}
 	@RequestMapping(value="/save",method=RequestMethod.POST )
-	public String save(ModelMap model,@ModelAttribute("qborm")QuestionBundleORM orm)
+	public String save(ModelMap model,@ModelAttribute("qborm")QuestionBundleORM orm,HttpServletRequest request)
 	{
-		client.add(orm);
+		setMessage(client.add(orm,request),model);
 		model.addAttribute("bundleList",client.getList());
-		return getView("question/quetionBundleList",model,orm.getTitle()+" Saved Successfully");
+		return getView("question/quetionBundleList",model);
 	}
 		
 	 @RequestMapping(value = "/edit", method = RequestMethod.GET)
@@ -68,6 +70,7 @@ public class QuestionBundleController extends GenericController {
 	       model.addAttribute("action","update");
 	       return getView("question/questionBundleForm",model);
 	   }
+	 //@ResponseBody
 	 @RequestMapping(value = "/update", method = RequestMethod.POST)
 	   public String update(@Valid @ModelAttribute("qborm")QuestionBundleORM orm,ModelMap model,HttpServletRequest request) {
 	       setMessage(client.update(orm,request),model);
@@ -77,11 +80,18 @@ public class QuestionBundleController extends GenericController {
 
 	 @RequestMapping(value = "/delete", method = RequestMethod.GET)
 	   public String delete(@RequestParam int id,ModelMap model) {
-		 model.addAttribute("action","delete");
-			 client.delete(id);
-			 model.addAttribute("id",id);
-			model.addAttribute("bundleList",client.getList());
-			return getView("question/quetionBundleList",model,"Selected Question Bundle deleted successfully");
+	       QuestionBundleORM orm = client.getById(id);
+	       model.addAttribute("qborm",orm);
+	       model.addAttribute("action","sureDelete");
+	       return getView("question/questionBundleForm",model,"Are you sure to delete following Question Bundle and Questions in it..?");
 	   }
+	 //@ResponseBody
+	 @RequestMapping(value = "/sureDelete", method = RequestMethod.POST)
+	   public String sureDelete(@Valid @ModelAttribute("qborm")QuestionBundleORM orm,ModelMap model,HttpServletRequest request) {
+	       setMessage(client.delete(orm.getQuestionBundleId()),model);
+			model.addAttribute("bundleList",client.getList());
+	       return getView("question/quetionBundleList",model);
+	   }
+
 		
 }

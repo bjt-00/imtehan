@@ -7,7 +7,14 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -15,7 +22,7 @@ import com.bitguiders.imtehan.dataaccess.orm.QuestionORM;
 import com.bitguiders.imtehan.util.QuestionParser;
 
 @Service
-public class QuestionRestClientImpl extends RestClientSupport<QuestionORM> implements QuestionRestClient {
+public class QuestionRestClientImpl extends QuestionRestClient {
 
 	public QuestionRestClientImpl(){
 		super(REST.QUESTION);
@@ -28,23 +35,15 @@ public class QuestionRestClientImpl extends RestClientSupport<QuestionORM> imple
 	}
 
 	@Override
-	public String add(QuestionORM qb) {
-		System.out.println(toSQL(qb));
-		return restTemplate.getForObject( service.getAddURL(toSQL(qb)), String.class);
+	public String add(QuestionORM qb,HttpServletRequest request) {
+		ResponseEntity<String> response = restTemplate.postForEntity( service.getAddURL(), request , String.class );
+		return response.getBody();//restTemplate.getForObject( service.getAddURL(toSQL(qb)), String.class);
 	}
 	@Override
 	public String update(QuestionORM qb,HttpServletRequest request) {
-		System.out.println(toUpdate(qb));
-		return restTemplate.getForObject(service.getUpdateURL(qb.getQuestionId(),toUpdate(qb)), String.class);
-		
-        /*Map<String, String> vars = new HashMap<String, String>();
-        vars.put("id", qb.getQuestionId()+"");
-        vars.put("data", toUpdate(qb));
-        vars.put("a","update");
-
-
-		return restTemplate.postForObject(service.getUpdateURL(qb.getQuestionId(),""),request, String.class,vars);
-*/	}
+		ResponseEntity<String> response = restTemplate.postForEntity( service.getUpdateURL(qb.getQuestionId(),""), request , String.class );
+		return response.getBody();
+	}
 
 	@Override
 	public String toUpdate(QuestionORM qb) {
@@ -95,8 +94,17 @@ public class QuestionRestClientImpl extends RestClientSupport<QuestionORM> imple
 
 	}
 
+
 public static void main(String[] arg){
 	System.out.println(QuestionParser.parse("{}}"));
 }
+
+@Override
+public String delete(QuestionORM e, HttpServletRequest request) {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+
 
 }

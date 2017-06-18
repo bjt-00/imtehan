@@ -24,7 +24,7 @@
 <fieldset>
 <form:form modelAttribute="qborm" method="post" action="${action}.do">
 <form:errors path="*" cssClass="alert alert-danger" element="div"/>
-
+	<form:input path="questionBundleId" type="hidden" />
 <div id="questionBundleInformation">
 	
 	<table class="table">
@@ -60,7 +60,7 @@
 		 Back
 		</a>
 		<a  href="#" >
-		 <button id="btnAdd" type="submit" class="btn btn-primary" >${action}</button>
+		 <button id="btnAdd" name="${action}" type="submit" class="btn btn-primary" >${action}</button>
 		</a>
 		
         

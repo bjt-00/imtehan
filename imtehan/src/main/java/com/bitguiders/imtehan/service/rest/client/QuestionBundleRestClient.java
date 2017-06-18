@@ -5,6 +5,10 @@ import org.springframework.stereotype.Service;
 import com.bitguiders.imtehan.dataaccess.orm.QuestionBundleORM;
 
 @Service
-public interface QuestionBundleRestClient extends GenericRestClient<QuestionBundleORM> {
+public abstract class QuestionBundleRestClient extends GenericRestClient<QuestionBundleORM> {
+
+	QuestionBundleRestClient(RestClientSupport.REST service) {
+		super(service);
+	}
 	
 }

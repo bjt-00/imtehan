@@ -20,8 +20,8 @@ public class ExampAOP {
 		System.out.println("Method hijacked : "+joinPoint.getSignature().getName());
 	}
 	
-	@AfterReturning(pointcut="execution(* com.bitguiders.imtehan.service.rest..*.*(..))",
-			        returning="result")
+	//@AfterReturning(pointcut="execution(* com.bitguiders.imtehan.service.rest..*.*(..))",
+		//	        returning="result")
 	public void afterReturningMthodCall(JoinPoint joinPoint,Object result){
 		System.out.println("***************aop-> After Returning ****************");
 		System.out.println("Method hijacked : "+joinPoint.getSignature().getName());

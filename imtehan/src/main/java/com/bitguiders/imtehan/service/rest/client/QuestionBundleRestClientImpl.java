@@ -4,15 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import com.google.gson.reflect.TypeToken;
 
 import com.bitguiders.imtehan.dataaccess.orm.QuestionBundleORM;
 
 @Service
-public class QuestionBundleRestClientImpl extends RestClientSupport<QuestionBundleORM> implements QuestionBundleRestClient {
+public class QuestionBundleRestClientImpl extends QuestionBundleRestClient {
 
 	public QuestionBundleRestClientImpl(){
 		super(REST.QUESTION_UNDLE);
@@ -24,15 +32,17 @@ public class QuestionBundleRestClientImpl extends RestClientSupport<QuestionBund
 	}
 
 	@Override
-	public String add(QuestionBundleORM qb) {
-		return restTemplate.getForObject( service.getAddURL(toSQL(qb)), String.class);
+	public String add(QuestionBundleORM qb,HttpServletRequest request) {
+		ResponseEntity<String> response = restTemplate.postForEntity(service.getURL(), getFormattedRequest(qb.getQuestionBundleId()+"",request), String.class);
+		return response.getBody();
 	}
+
 	@Override
-	public String update(QuestionBundleORM qb,HttpServletRequest request) {
-		//QuestionBundleORM qb = restTemplate.postForObject(service.getUpdateURL(qb.getQuestionBundleId(),toUpdate(qb)), qb, String.class);
-		return qb.getTitle()+ restTemplate.postForObject(service.getUpdateURL(qb.getQuestionBundleId(),toUpdate(qb)), qb, String.class);
-//		return restTemplate.getForObject(service.getUpdateURL(qb.getQuestionBundleId(),toUpdate(qb)), String.class);
+	public String update(QuestionBundleORM qb,HttpServletRequest request){
+		ResponseEntity<String> response = restTemplate.postForEntity(service.getURL(), getFormattedRequest(qb.getQuestionBundleId()+"",request), String.class);
+		return response.getBody();
 	}
+
 	@Override
 	public String toUpdate(QuestionBundleORM qb) {
 		return "title='" + qb.getTitle() + "', type='" + qb.getType() + "', technology='" + qb.getTechnology()+"', date='" + qb.getDate()+"', totalQuestions= (SELECT count(*) FROM question WHERE questionBundleId ="+qb.getQuestionBundleId()+")";
@@ -52,4 +62,10 @@ public class QuestionBundleRestClientImpl extends RestClientSupport<QuestionBund
 		}
 	}
 	//SELECT title,type ,(SELECT count(*) FROM question WHERE questionBundleId =qb.questionBundleId) FROM `question_bundle` qb WHERE 1
+
+	@Override
+	public String delete(QuestionBundleORM qb,HttpServletRequest request) {
+		ResponseEntity<String> response = restTemplate.postForEntity(service.getURL(), getFormattedRequest(qb.getQuestionBundleId()+"",request), String.class);
+		return response.getBody();
+	}
 }

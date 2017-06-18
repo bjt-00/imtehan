@@ -47,7 +47,7 @@ public class RestTestService {
 		return (QuestionORM) client.getById(id);
 	}
 	@RequestMapping(value="/add", method=RequestMethod.GET)
-	public @ResponseBody String add(){
+	public @ResponseBody String add(HttpServletRequest request){
 		QuestionORM qb = new QuestionORM();
 		qb.setQuestionBundleId(2);
 		qb.setQuestion("Test Question");
@@ -55,7 +55,7 @@ public class RestTestService {
 		qb.setFals(false);
 		qb.setTru(true);
 		//qb.setOptions("A,B");
-		return client.add(qb);
+		return client.add(qb,request);
 	}
 	@RequestMapping(value="/update/{id}", method=RequestMethod.GET)
 	public @ResponseBody String update(@PathVariable(value="id", required=false) int id,HttpServletRequest request){

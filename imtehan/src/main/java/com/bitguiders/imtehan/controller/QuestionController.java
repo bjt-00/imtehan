@@ -91,7 +91,7 @@ public class QuestionController extends GenericController {
 	@RequestMapping(value="/save",method=RequestMethod.POST )
 	public String save(ModelMap model,@ModelAttribute("qorm")QuestionORM orm,HttpServletRequest request)
 	{
-		client.add(orm);
+		client.add(orm,request);
 		
 		//update total count for qb, its temp solution
 		client2.update(client2.getById(orm.getQuestionBundleId()),request);
@@ -114,7 +114,7 @@ public class QuestionController extends GenericController {
 	       setMessage("Question updated successfully", model);
 	       return getList(orm.getQuestionBundleId(),model);
 	   }
-
+	 
 	 @RequestMapping(value = "/delete", method = RequestMethod.GET)
 	   public String delete(@RequestParam int id,ModelMap model,HttpServletRequest request) {
 		 QuestionORM orm = client.getById(id);
