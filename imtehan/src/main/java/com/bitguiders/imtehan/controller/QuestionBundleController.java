@@ -88,7 +88,7 @@ public class QuestionBundleController extends GenericController {
 	 //@ResponseBody
 	 @RequestMapping(value = "/sureDelete", method = RequestMethod.POST)
 	   public String sureDelete(@Valid @ModelAttribute("qborm")QuestionBundleORM orm,ModelMap model,HttpServletRequest request) {
-	       setMessage(client.delete(orm.getQuestionBundleId()),model);
+	       setMessage(client.delete(orm,request),model);
 			model.addAttribute("bundleList",client.getList());
 	       return getView("question/quetionBundleList",model);
 	   }

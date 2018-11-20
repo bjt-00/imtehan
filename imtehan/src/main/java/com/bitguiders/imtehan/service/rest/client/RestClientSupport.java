@@ -63,6 +63,7 @@ abstract class RestClientSupport<E> {
 	public String getJson(String url){
 		return restTemplate.getForObject(url, String.class);
 	}
+	@Deprecated
 	public String delete(int id) {
 		return getJson(service.getDeleteURL(id));
 	}
